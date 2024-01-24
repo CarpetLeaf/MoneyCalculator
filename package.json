@@ -12,6 +12,9 @@
     "format:check": "prettier --check \"**/*.ts\" && prettier --check \"**/*.tsx\" && prettier --check \"**/*.scss\""
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.6",
     "@reduxjs/toolkit": "^2.0.1",
     "prettier": "^3.2.4",
     "react": "^18.2.0",
