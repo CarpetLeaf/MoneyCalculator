@@ -1,4 +1,9 @@
-.header {
-  width: 100%;
-  background-color: aqua;
+@import '../../theming/colors.scss';
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+.appBar {
+    background-color: $primary !important;
 }
