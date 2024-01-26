@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from "react";
 import {
   Container,
   Typography,
@@ -6,76 +6,72 @@ import {
   TextField,
   Button,
   Box,
-} from '@mui/material';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
-import styles from './MainPage.module.scss';
-import { DataType } from '../../types/DateSumType';
+} from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+import styles from "./MainPage.module.scss";
+import { mockRules } from "../../data/mockData";
+import { LineChart } from "@mui/x-charts";
+import { RootState } from "../../app/store";
+import { TypedUseSelectorHook, useSelector } from "react-redux";
 
 const MainPage = () => {
-  const [selectedDate, handleDateChange] = React.useState(dayjs());
+  const [selectedDate, handleDateChange] = useState(dayjs());
   const [calculatedBalance, setCalculatedBalance] = useState(0);
   const [currBalance, setCurrBalance] = useState(0);
+  const [timeAxis, setTimeAxis] = useState<string[]>([]);
+  const [balanceAxis, setBalanceAxis] = useState<number[]>([]);
 
-  const mockData: DataType = {
-    periodChanges: [
-        {
-            date: 10,
-            sum: 10000
-        },
-        {
-            date: 25,
-            sum: 50000
-        },
-        {
-            date: 1,
-            sum: -20000
-        },
-    ],
-    dailyExpenses: [
-        {
-            sum: -500
-        }
-    ]
-  }
-  console.log(mockData);
+  const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
+  const mockData = mockRules;
 
   const calculateBalance = () => {
+    const localTimeAxis: string[] = [];
+    const localBalanceAxis: number[] = [];
+    setBalanceAxis([]);
     const startDate = dayjs();
     const endDate = selectedDate;
-    console.log(startDate, endDate)
     let balance = currBalance;
-    let day = startDate;
-    while (day.valueOf() <= endDate.valueOf()) {
-        console.log('day: ', day)
-        mockData.dailyExpenses.forEach(sum => {
-            balance+=sum.sum
-        })
-        mockData.periodChanges.forEach(el => {
-            if(day.day() === el.date)
-                balance += el.sum;
-        })
-        day = day.add(1, 'day')
+    for (
+      let day = startDate;
+      day.valueOf() <= endDate.valueOf();
+      day = day.add(1, "day")
+    ) {
+      mockData.dailyExpenses.forEach((sum) => {
+        balance += sum.sum;
+      });
+      mockData.periodChanges.forEach((el) => {
+        if (day.get("D") === el.date) balance += el.sum;
+      });
+      localTimeAxis.push(day.format("DD.MM.YYYY"));
+      localBalanceAxis.push(balance);
     }
-    console.log('balance: ', balance)
+    setTimeAxis(localTimeAxis);
+    setBalanceAxis(localBalanceAxis);
     setCalculatedBalance(balance);
   };
 
   return (
-    <>
+    <div className={isDarkMode ? styles.wrapperDark : styles.wrapper}>
       <Container component="main" maxWidth="sm">
-        <Paper elevation={3} style={{ marginTop: '2rem', padding: '2rem' }}>
+        <Paper
+          elevation={3}
+          style={{ marginTop: "2rem", padding: "2rem" }}
+          className={isDarkMode ? styles.paperDark : styles.wrapper}
+        >
           <Typography variant="h5" component="h1" gutterBottom>
             Calculate Your Balance
           </Typography>
           <Box my={3}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
                 value={selectedDate}
                 onChange={(e) => handleDateChange(e ?? dayjs())}
-            />
-        </LocalizationProvider>
+              />
+            </LocalizationProvider>
           </Box>
           <Box my={3}>
             <TextField
@@ -100,9 +96,35 @@ const MainPage = () => {
           <Typography variant="h6" gutterBottom>
             Calculated Balance: {calculatedBalance}
           </Typography>
+          {balanceAxis.length > 0 && (
+            <div>
+              <Typography variant="h5" component="h1" gutterBottom>
+                Balance change chart
+              </Typography>
+              <LineChart
+                xAxis={[{ data: timeAxis, scaleType: "point" }]}
+                series={[
+                  {
+                    data: balanceAxis,
+                  },
+                  {
+                    data: [
+                      0,
+                      ...timeAxis.slice(0, timeAxis.length - 2).map(() => null),
+                      0,
+                    ],
+                    connectNulls: true,
+                    color: "grey",
+                  },
+                ]}
+                width={500}
+                height={300}
+              />
+            </div>
+          )}
         </Paper>
       </Container>
-    </>
+    </div>
   );
 };
 

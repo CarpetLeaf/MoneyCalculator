@@ -29,13 +29,21 @@ const TestPage = () => {
       <h1>
         Money: {value.dollars}.{value.cents}
       </h1>
-      <Button variant="contained" onClick={() => addDollarsHandler(Number(prompt()))}>
+      <Button
+        variant="contained"
+        onClick={() => addDollarsHandler(Number(prompt()))}
+      >
         Add dollar
-    </Button>
-      <Button variant="contained" onClick={() => addCentsHandler(Number(prompt()))}>
+      </Button>
+      <Button
+        variant="contained"
+        onClick={() => addCentsHandler(Number(prompt()))}
+      >
         Add cent
       </Button>
-      <Button variant="contained" onClick={addUserHandler}>add user</Button>
+      <Button variant="contained" onClick={addUserHandler}>
+        add user
+      </Button>
       <h1>Users list: </h1>
       <ul>
         {users.map((user) => (

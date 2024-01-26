@@ -1,9 +1,15 @@
-@import '../../theming/colors.scss';
+@import "../../theming/colors.scss";
 
 .wrapper {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 .appBar {
-    background-color: $primary !important;
+  background-color: $primary !important;
+}
+
+.rightElements {
+  display: flex;
+  align-items: center;
+  gap: 25px;
 }

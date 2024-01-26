@@ -1,13 +1,13 @@
 export type DateSumType = {
-    date: number,
-    sum: number
-}
+  date: number;
+  sum: number;
+};
 
 export type dailyExpensesType = {
-    sum: number;
-}
+  sum: number;
+};
 
 export type DataType = {
-    dailyExpenses: dailyExpensesType[];
-    periodChanges: DateSumType[];
-}
+  dailyExpenses: dailyExpensesType[];
+  periodChanges: DateSumType[];
+};

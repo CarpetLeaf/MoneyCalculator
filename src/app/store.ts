@@ -42,27 +42,27 @@ const usersSlice = createSlice({
 });
 
 const defaultDarkMode = {
-  isDarkMode: true
-}
+  isDarkMode: true,
+};
 const darkModeSlice = createSlice({
-  name: 'darkMode',
+  name: "darkMode",
   initialState: defaultDarkMode,
   reducers: {
     switchMode: (state) => {
-      state.isDarkMode = !state.isDarkMode
-    }
-  }
-})
+      state.isDarkMode = !state.isDarkMode;
+    },
+  },
+});
 
 export const newStore = configureStore({
   reducer: {
     money: moneySlice.reducer,
     users: usersSlice.reducer,
-    darkMode: darkModeSlice.reducer
+    darkMode: darkModeSlice.reducer,
   },
 });
 
-export const {switchMode} = darkModeSlice.actions;
+export const { switchMode } = darkModeSlice.actions;
 export const { addDollars, addCents } = moneySlice.actions;
 export const { addUser } = usersSlice.actions;
 export type AppDispatch = typeof newStore.dispatch;
