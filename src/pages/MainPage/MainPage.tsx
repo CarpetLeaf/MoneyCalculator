@@ -11,7 +11,6 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import styles from "./MainPage.module.scss";
-import { mockRules } from "../../data/mockData";
 import { LineChart } from "@mui/x-charts";
 import { RootState } from "../../app/store";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
@@ -25,8 +24,7 @@ const MainPage = () => {
 
   const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
-
-  const mockData = mockRules;
+  const data = useAppSelector((state) => state.rules);
 
   const calculateBalance = () => {
     const localTimeAxis: string[] = [];
@@ -40,10 +38,10 @@ const MainPage = () => {
       day.valueOf() <= endDate.valueOf();
       day = day.add(1, "day")
     ) {
-      mockData.dailyExpenses.forEach((sum) => {
+      data.dailyExpenses.forEach((sum) => {
         balance += sum.sum;
       });
-      mockData.periodChanges.forEach((el) => {
+      data.periodChanges.forEach((el) => {
         if (day.get("D") === el.date) balance += el.sum;
       });
       localTimeAxis.push(day.format("DD.MM.YYYY"));
@@ -70,6 +68,17 @@ const MainPage = () => {
               <DatePicker
                 value={selectedDate}
                 onChange={(e) => handleDateChange(e ?? dayjs())}
+                sx={{
+                  input: {
+                    color: isDarkMode ? "white" : "black",
+                  },
+                  svg: {
+                    color: isDarkMode ? "white" : "#888",
+                  },
+                  fieldset: {
+                    borderColor: isDarkMode ? "white" : "#aaa",
+                  },
+                }}
               />
             </LocalizationProvider>
           </Box>
@@ -80,6 +89,18 @@ const MainPage = () => {
               fullWidth
               value={currBalance}
               onChange={(e) => setCurrBalance(Number(e.target.value))}
+              className={styles.textField}
+              sx={{
+                input: {
+                  color: isDarkMode ? "white" : "black",
+                },
+                fieldset: {
+                  borderColor: isDarkMode ? "white" : "#aaa",
+                },
+                label: {
+                  color: isDarkMode ? "white" : "#aaa",
+                },
+              }}
             />
           </Box>
           <Box my={3}>

@@ -3,7 +3,6 @@ import styles from "./Profile.module.scss";
 
 const Profile = () => {
   const userData = mockProfile;
-  console.log(userData);
 
   return (
     <div className={styles.wrapper}>

@@ -25,7 +25,6 @@ const Header = () => {
   const open = Boolean(anchorEl);
 
   const userData = mockProfile;
-  console.log(userData);
 
   const handleSwitch = () => {
     dispatch(switchMode());
@@ -36,10 +35,12 @@ const Header = () => {
   };
 
   const navigateProfile = () => {
+    handleClose();
     navigate("/profile");
   };
 
   const navigateRules = () => {
+    handleClose();
     navigate("/rules");
   };
 
@@ -52,7 +53,7 @@ const Header = () => {
   return (
     <AppBar position="static" className={styles.appBar}>
       <Toolbar className={styles.wrapper}>
-        <Typography onClick={() => navigate("/mainPage")} variant="h6">
+        <Typography onClick={() => navigate("/mainPage")} variant="h6" className={styles.headerMain}>
           Balance Calculator
         </Typography>
         <div className={styles.rightElements}>
@@ -69,9 +70,9 @@ const Header = () => {
             labelPlacement="start"
           />
           <Avatar
-            sx={{ bgcolor: "#00B358" }}
             onClick={(e) => handleExpandUser(e)}
             src={userData.avatarUrl}
+            className={styles.avatar}
           >
             {userData.name[0]}
             {userData.lastname[0]}
