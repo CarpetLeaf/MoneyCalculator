@@ -5,7 +5,7 @@ import {
   Paper,
   TextField,
   Button,
-  Box,
+  Box
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -123,7 +123,19 @@ const MainPage = () => {
                 Balance change chart
               </Typography>
               <LineChart
-                xAxis={[{ data: timeAxis, scaleType: "point" }]}
+                sx={{
+                  "& .MuiChartsAxis-directionX": {
+                    "& .MuiChartsAxis-tickLabel": {
+                      fill: isDarkMode ? "white" : 'black'
+                    }
+                  },
+                  "& .MuiChartsAxis-directionY": {
+                    "& .MuiChartsAxis-tickLabel": {
+                      fill: isDarkMode ? "white" : 'black'
+                    }
+                  }
+                }}
+                xAxis={[{ data: timeAxis, scaleType: "point", fill: 'red' }]}
                 series={[
                   {
                     data: balanceAxis,

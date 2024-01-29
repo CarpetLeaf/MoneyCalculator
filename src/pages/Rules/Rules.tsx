@@ -9,6 +9,7 @@ import {
   ListItem,
   ListItemText,
   Modal,
+  Popover,
   TextField,
   Typography,
 } from "@mui/material";
@@ -27,6 +28,8 @@ import {
 const Rules = () => {
   const [dailyExpensesModalOpen, setDailyExpensesModalOpen] = useState(false);
   const [periodChangesModalOpen, setPeriodChangesModalOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<HTMLImageElement | null>(null)
+  const [infoText, setInfoText] = useState('');
   const [DESum, setDESum] = useState("");
   const [DEDesc, setDEDesc] = useState("");
   const [PCSum, setPCSum] = useState("");
@@ -60,6 +63,14 @@ const Rules = () => {
     setPeriodChangesModalOpen(false);
   };
 
+  const openInfo = (event: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    event.stopPropagation();
+    setAnchorEl(event.currentTarget);
+  }
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const closeDailyExpensesModal = () => {
     setDailyExpensesModalOpen(false);
   };
@@ -67,8 +78,23 @@ const Rules = () => {
     setPeriodChangesModalOpen(false);
   };
 
+  const open = Boolean(anchorEl);
+  const dailyInfo = 'Эти правила означают ваши ежеденвные траты. Например расходы на еду, бензин и т.д.';
+  const periodInfo = 'Эти правила означают ваши периодические траты/доходы. Например зарплата, арендная плата и т.д.';
+
   return (
     <div>
+      <Popover
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+      >
+        <Typography sx={{ p: 2 }}>{infoText}</Typography>
+      </Popover>
       <Typography variant="h3" sx={{
         color: isDarkMode ? '#fff' : '#000'
       }}>Rules</Typography>
@@ -86,8 +112,14 @@ const Rules = () => {
             expandIcon={<ArrowDropDownIcon />}
             aria-controls="daily-expenses-content"
             id="daily-expenses-header"
+            sx={{
+              img: {
+                marginLeft: '10px'
+              }
+            }}
           >
             <Typography>Daily expenses</Typography>
+            <img src="public/info-icon.svg" onClick={e => {openInfo(e); setInfoText(dailyInfo)}}/>
           </AccordionSummary>
           <AccordionDetails>
             <List className={styles.list}>
@@ -126,8 +158,14 @@ const Rules = () => {
             expandIcon={<ArrowDropDownIcon />}
             aria-controls="period-changes-content"
             id="period-changes-header"
+            sx={{
+              img: {
+                marginLeft: '10px'
+              }
+            }}
           >
             <Typography>Period changes</Typography>
+            <img src="public/info-icon.svg" onClick={e => {openInfo(e); setInfoText(periodInfo)}}/>
           </AccordionSummary>
           <AccordionDetails>
             <List className={styles.list}>
