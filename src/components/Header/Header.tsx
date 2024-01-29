@@ -53,7 +53,11 @@ const Header = () => {
   return (
     <AppBar position="static" className={styles.appBar}>
       <Toolbar className={styles.wrapper}>
-        <Typography onClick={() => navigate("/mainPage")} variant="h6" className={styles.headerMain}>
+        <Typography
+          onClick={() => navigate("/mainPage")}
+          variant="h6"
+          className={styles.headerMain}
+        >
           Balance Calculator
         </Typography>
         <div className={styles.rightElements}>

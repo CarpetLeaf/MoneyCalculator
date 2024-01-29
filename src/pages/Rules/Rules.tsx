@@ -28,8 +28,8 @@ import {
 const Rules = () => {
   const [dailyExpensesModalOpen, setDailyExpensesModalOpen] = useState(false);
   const [periodChangesModalOpen, setPeriodChangesModalOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<HTMLImageElement | null>(null)
-  const [infoText, setInfoText] = useState('');
+  const [anchorEl, setAnchorEl] = useState<HTMLImageElement | null>(null);
+  const [infoText, setInfoText] = useState("");
   const [DESum, setDESum] = useState("");
   const [DEDesc, setDEDesc] = useState("");
   const [PCSum, setPCSum] = useState("");
@@ -66,7 +66,7 @@ const Rules = () => {
   const openInfo = (event: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
-  }
+  };
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -79,8 +79,10 @@ const Rules = () => {
   };
 
   const open = Boolean(anchorEl);
-  const dailyInfo = 'Эти правила означают ваши ежеденвные траты. Например расходы на еду, бензин и т.д.';
-  const periodInfo = 'Эти правила означают ваши периодические траты/доходы. Например зарплата, арендная плата и т.д.';
+  const dailyInfo =
+    "Эти правила означают ваши ежеденвные траты. Например расходы на еду, бензин и т.д.";
+  const periodInfo =
+    "Эти правила означают ваши периодические траты/доходы. Например зарплата, арендная плата и т.д.";
 
   return (
     <div>
@@ -89,39 +91,59 @@ const Rules = () => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
+          vertical: "bottom",
+          horizontal: "left",
         }}
       >
         <Typography sx={{ p: 2 }}>{infoText}</Typography>
       </Popover>
-      <Typography variant="h3" sx={{
-        color: isDarkMode ? '#fff' : '#000'
-      }}>Rules</Typography>
-      <div className={styles.rulesContainer}>
-        <Accordion    
+      <Typography
+        variant="h3"
         sx={{
-          backgroundColor: isDarkMode ? '#222' : 'white',
-          color: isDarkMode ? 'white' : 'black',
-          boxShadow: isDarkMode ? '0px 0px 2px 0px white' : '0px 0px 2px 0px black',
-          svg: {
-            color: isDarkMode ? 'white' : '#888'
-          }
-          }}>
+          color: isDarkMode ? "#fff" : "#000",
+        }}
+      >
+        Rules
+      </Typography>
+      <div className={styles.rulesContainer}>
+        <Accordion
+          sx={{
+            backgroundColor: isDarkMode ? "#222" : "white",
+            color: isDarkMode ? "white" : "black",
+            boxShadow: isDarkMode
+              ? "0px 0px 2px 0px white"
+              : "0px 0px 2px 0px black",
+            svg: {
+              color: isDarkMode ? "white" : "#888",
+            },
+          }}
+        >
           <AccordionSummary
             expandIcon={<ArrowDropDownIcon />}
             aria-controls="daily-expenses-content"
             id="daily-expenses-header"
             sx={{
               img: {
-                marginLeft: '10px'
-              }
+                marginLeft: "10px",
+              },
             }}
           >
             <Typography>Daily expenses</Typography>
-            <img src="public/info-icon.svg" onClick={e => {openInfo(e); setInfoText(dailyInfo)}}/>
+            <img
+              src="public/info-icon.svg"
+              onClick={(e) => {
+                openInfo(e);
+                setInfoText(dailyInfo);
+              }}
+            />
           </AccordionSummary>
-          <AccordionDetails>
+          <AccordionDetails
+            sx={{
+              svg: {
+                color: "white",
+              },
+            }}
+          >
             <List className={styles.list}>
               {rules ? (
                 rules.dailyExpenses.map((el) => (
@@ -130,7 +152,7 @@ const Rules = () => {
                       primary={el.sum}
                       secondary={`${el.description}`}
                       secondaryTypographyProps={{
-                        color: isDarkMode ? '#ccc' : '#888'
+                        color: isDarkMode ? "#ccc" : "#888",
                       }}
                     ></ListItemText>
                   </ListItem>
@@ -146,28 +168,44 @@ const Rules = () => {
             </div>
           </AccordionDetails>
         </Accordion>
-        <Accordion sx={{
-          backgroundColor: isDarkMode ? '#222' : 'white',
-          color: isDarkMode ? 'white' : 'black',
-          boxShadow: isDarkMode ? '0px 0px 2px 0px white' : '0px 0px 2px 0px black',
-          svg: {
-            color: isDarkMode ? 'white' : '#888'
-          },
-      }}>
+        <Accordion
+          sx={{
+            backgroundColor: isDarkMode ? "#222" : "white",
+            color: isDarkMode ? "white" : "black",
+            boxShadow: isDarkMode
+              ? "0px 0px 2px 0px white"
+              : "0px 0px 2px 0px black",
+            svg: {
+              color: isDarkMode ? "white" : "#888",
+            },
+          }}
+        >
           <AccordionSummary
             expandIcon={<ArrowDropDownIcon />}
             aria-controls="period-changes-content"
             id="period-changes-header"
             sx={{
               img: {
-                marginLeft: '10px'
-              }
+                marginLeft: "10px",
+              },
             }}
           >
             <Typography>Period changes</Typography>
-            <img src="public/info-icon.svg" onClick={e => {openInfo(e); setInfoText(periodInfo)}}/>
+            <img
+              src="public/info-icon.svg"
+              onClick={(e) => {
+                openInfo(e);
+                setInfoText(periodInfo);
+              }}
+            />
           </AccordionSummary>
-          <AccordionDetails>
+          <AccordionDetails
+            sx={{
+              svg: {
+                color: "white",
+              },
+            }}
+          >
             <List className={styles.list}>
               {rules ? (
                 rules.periodChanges.map((el) => (
@@ -176,7 +214,7 @@ const Rules = () => {
                       primary={el.sum}
                       secondary={`${el.date}th: ${el.description}`}
                       secondaryTypographyProps={{
-                        color: isDarkMode ? '#ccc' : '#888'
+                        color: isDarkMode ? "#ccc" : "#888",
                       }}
                     ></ListItemText>
                   </ListItem>
