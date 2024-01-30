@@ -12,6 +12,7 @@ import {
   Popover,
   TextField,
   Typography,
+  styled,
 } from "@mui/material";
 import styles from "./Rules.module.scss";
 import AddIcon from "@mui/icons-material/Add";
@@ -23,7 +24,11 @@ import {
   RootState,
   addDailyRule,
   addPeriodRule,
+  uploadRules,
 } from "../../app/store";
+import DownloadIcon from "@mui/icons-material/Download";
+import dayjs from "dayjs";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const Rules = () => {
   const [dailyExpensesModalOpen, setDailyExpensesModalOpen] = useState(false);
@@ -78,6 +83,46 @@ const Rules = () => {
     setPeriodChangesModalOpen(false);
   };
 
+  const downloadRules = () => {
+    const file = JSON.stringify(rules);
+    const blob = new Blob([file], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    const currTime = dayjs();
+    link.download = `Rules_${currTime.valueOf()}`;
+    document.getElementById("headerLineId")!.appendChild(link);
+    link.click();
+    document.getElementById("headerLineId")!.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const VisuallyHiddenInput = styled("input")({
+    clip: "rect(0 0 0 0)",
+    clipPath: "inset(50%)",
+    height: 1,
+    overflow: "hidden",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    whiteSpace: "nowrap",
+    width: 1,
+  });
+
+  const fileUploadHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const result = e.target?.result;
+      if (result) {
+        console.log("result: ", JSON.parse(result.toString()));
+        dispatch(uploadRules(JSON.parse(result.toString())));
+      }
+    };
+    reader.readAsText(event.target.files![0]);
+  };
+
+  console.log("rules", rules);
+
   const open = Boolean(anchorEl);
   const dailyInfo =
     "Эти правила означают ваши ежеденвные траты. Например расходы на еду, бензин и т.д.";
@@ -97,14 +142,36 @@ const Rules = () => {
       >
         <Typography sx={{ p: 2 }}>{infoText}</Typography>
       </Popover>
-      <Typography
-        variant="h3"
-        sx={{
-          color: isDarkMode ? "#fff" : "#000",
-        }}
-      >
-        Rules
-      </Typography>
+      <div className={styles.headerLine} id="headerLineId">
+        <Typography
+          variant="h3"
+          sx={{
+            color: isDarkMode ? "#fff" : "#000",
+          }}
+        >
+          Rules
+        </Typography>
+        <div className={styles.rightElements}>
+          <Button
+            component="label"
+            variant="contained"
+            startIcon={<CloudUploadIcon />}
+            className={styles.button}
+          >
+            Upload file
+            <VisuallyHiddenInput
+              type="file"
+              accept=".json"
+              onChange={(e) => fileUploadHandler(e)}
+            />
+          </Button>
+          <DownloadIcon
+            fontSize="large"
+            className={styles.downloadIcon}
+            onClick={downloadRules}
+          ></DownloadIcon>
+        </div>
+      </div>
       <div className={styles.rulesContainer}>
         <Accordion
           sx={{
@@ -145,7 +212,7 @@ const Rules = () => {
             }}
           >
             <List className={styles.list}>
-              {rules ? (
+              {rules.dailyExpenses.length ? (
                 rules.dailyExpenses.map((el) => (
                   <ListItem>
                     <ListItemText
@@ -158,7 +225,7 @@ const Rules = () => {
                   </ListItem>
                 ))
               ) : (
-                <></>
+                <Typography>Данных нет</Typography>
               )}
             </List>
             <div className={styles.addRuleBtnWrapper}>
@@ -207,7 +274,7 @@ const Rules = () => {
             }}
           >
             <List className={styles.list}>
-              {rules ? (
+              {rules.periodChanges.length ? (
                 rules.periodChanges.map((el) => (
                   <ListItem>
                     <ListItemText
@@ -220,7 +287,7 @@ const Rules = () => {
                   </ListItem>
                 ))
               ) : (
-                <></>
+                <Typography>Данных нет</Typography>
               )}
             </List>
             <div className={styles.addRuleBtnWrapper}>

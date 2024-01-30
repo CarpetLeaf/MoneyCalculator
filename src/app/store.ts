@@ -1,6 +1,5 @@
 import { PayloadAction, configureStore, createSlice } from "@reduxjs/toolkit";
-import { mockRules } from "../data/mockData";
-import { DateSumType, dailyExpensesType } from "../types/DateSumType";
+import { DataType, DateSumType, dailyExpensesType } from "../types/DateSumType";
 
 const initialState: MoneyReducerType = {
   cash: {
@@ -56,9 +55,14 @@ const darkModeSlice = createSlice({
   },
 });
 
+const defaultRules: DataType = {
+  dailyExpenses: [],
+  periodChanges: [],
+};
+
 const rulesSlice = createSlice({
   name: "rules",
-  initialState: mockRules,
+  initialState: defaultRules,
   reducers: {
     addDailyRule: (state, action: PayloadAction<dailyExpensesType>) => {
       state.dailyExpenses = [
@@ -76,6 +80,10 @@ const rulesSlice = createSlice({
         },
       ];
     },
+    uploadRules: (state, action: PayloadAction<DataType>) => {
+      state.dailyExpenses = action.payload.dailyExpenses;
+      state.periodChanges = action.payload.periodChanges;
+    },
   },
 });
 
@@ -88,7 +96,7 @@ export const newStore = configureStore({
   },
 });
 
-export const { addDailyRule, addPeriodRule } = rulesSlice.actions;
+export const { addDailyRule, addPeriodRule, uploadRules } = rulesSlice.actions;
 export const { switchMode } = darkModeSlice.actions;
 export const { addDollars, addCents } = moneySlice.actions;
 export const { addUser } = usersSlice.actions;

@@ -36,3 +36,25 @@
   border-top: 1px solid #888;
   border-bottom: 1px solid #888;
 }
+.headerLine {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+.downloadIcon {
+  margin-right: 10px;
+  color: $primary;
+}
+.downloadIcon:hover {
+  cursor: pointer;
+}
+.rightElements {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
+.button {
+  background-color: $primary !important;
+}
