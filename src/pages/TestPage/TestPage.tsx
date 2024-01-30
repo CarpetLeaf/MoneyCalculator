@@ -6,6 +6,7 @@ import {
   addDollars,
   addUser,
 } from "../../app/store";
+import { Button } from "@mui/material";
 
 const TestPage = () => {
   const useAppDispatch = () => useDispatch<AppDispatch>();
@@ -21,20 +22,28 @@ const TestPage = () => {
     dispatch(addCents(sum));
   };
   const addUserHandler = () => {
-    dispatch(addUser({ name: "gg", sirname: "gg2" }));
+    dispatch(addUser({ name: "Manuel", sirname: "Smith" }));
   };
   return (
     <>
       <h1>
         Money: {value.dollars}.{value.cents}
       </h1>
-      <button onClick={() => addDollarsHandler(Number(prompt()))}>
+      <Button
+        variant="contained"
+        onClick={() => addDollarsHandler(Number(prompt()))}
+      >
         Add dollar
-      </button>
-      <button onClick={() => addCentsHandler(Number(prompt()))}>
+      </Button>
+      <Button
+        variant="contained"
+        onClick={() => addCentsHandler(Number(prompt()))}
+      >
         Add cent
-      </button>
-      <button onClick={addUserHandler}>add user</button>
+      </Button>
+      <Button variant="contained" onClick={addUserHandler}>
+        add user
+      </Button>
       <h1>Users list: </h1>
       <ul>
         {users.map((user) => (

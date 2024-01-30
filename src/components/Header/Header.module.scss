@@ -1,4 +1,23 @@
-.header {
-  width: 100%;
-  background-color: aqua;
+@import "../../theming/colors.scss";
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.appBar {
+  background-color: $primary !important;
+}
+.rightElements {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+.avatar {
+  background-color: #00b358;
+}
+.avatar:hover {
+  cursor: pointer;
+}
+.headerMain:hover {
+  cursor: pointer;
 }

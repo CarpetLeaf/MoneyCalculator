@@ -1,4 +1,5 @@
 import { PayloadAction, configureStore, createSlice } from "@reduxjs/toolkit";
+import { DataType, DateSumType, dailyExpensesType } from "../types/DateSumType";
 
 const initialState: MoneyReducerType = {
   cash: {
@@ -41,13 +42,62 @@ const usersSlice = createSlice({
   },
 });
 
+const defaultDarkMode = {
+  isDarkMode: false,
+};
+const darkModeSlice = createSlice({
+  name: "darkMode",
+  initialState: defaultDarkMode,
+  reducers: {
+    switchMode: (state) => {
+      state.isDarkMode = !state.isDarkMode;
+    },
+  },
+});
+
+const defaultRules: DataType = {
+  dailyExpenses: [],
+  periodChanges: [],
+};
+
+const rulesSlice = createSlice({
+  name: "rules",
+  initialState: defaultRules,
+  reducers: {
+    addDailyRule: (state, action: PayloadAction<dailyExpensesType>) => {
+      state.dailyExpenses = [
+        ...state.dailyExpenses,
+        { sum: action.payload.sum, description: action.payload.description },
+      ];
+    },
+    addPeriodRule: (state, action: PayloadAction<DateSumType>) => {
+      state.periodChanges = [
+        ...state.periodChanges,
+        {
+          date: action.payload.date,
+          description: action.payload.description,
+          sum: action.payload.sum,
+        },
+      ];
+    },
+    uploadRules: (state, action: PayloadAction<DataType>) => {
+      state.dailyExpenses = action.payload.dailyExpenses;
+      state.periodChanges = action.payload.periodChanges;
+    },
+  },
+});
+
 export const newStore = configureStore({
   reducer: {
     money: moneySlice.reducer,
     users: usersSlice.reducer,
+    darkMode: darkModeSlice.reducer,
+    rules: rulesSlice.reducer,
   },
 });
 
+export const { addDailyRule, addPeriodRule, uploadRules } = rulesSlice.actions;
+export const { switchMode } = darkModeSlice.actions;
 export const { addDollars, addCents } = moneySlice.actions;
 export const { addUser } = usersSlice.actions;
 export type AppDispatch = typeof newStore.dispatch;

@@ -1,0 +1,60 @@
+@import "src/theming/colors.scss";
+
+.addRuleBtnWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 25px;
+}
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400;
+  border: 2px solid $grey;
+  box-shadow: 24;
+  background-color: $white;
+  padding: 25px;
+  border-radius: 15px;
+}
+.inputBlock {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+.saveBtnWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
+.list {
+  max-height: 300px;
+  overflow-y: auto;
+  border-top: 1px solid #888;
+  border-bottom: 1px solid #888;
+}
+.headerLine {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+.downloadIcon {
+  margin-right: 10px;
+  color: $primary;
+}
+.downloadIcon:hover {
+  cursor: pointer;
+}
+.rightElements {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
+.button {
+  background-color: $primary !important;
+}

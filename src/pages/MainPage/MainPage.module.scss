@@ -1,0 +1,18 @@
+@import "/src/theming/colors.scss";
+
+.button {
+  background-color: $primary !important;
+}
+.wrapperDark {
+  background-color: #222 !important;
+}
+.paperDark {
+  background-color: #333 !important;
+  color: #fff !important;
+}
+.wrapper {
+  background-color: #fff !important;
+}
+.textField {
+  color: #fff !important;
+}
