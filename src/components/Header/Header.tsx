@@ -32,6 +32,8 @@ const Header = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+    localStorage.removeItem("accessToken");
+    navigate("/login");
   };
 
   const navigateProfile = () => {

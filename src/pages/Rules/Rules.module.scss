@@ -58,3 +58,17 @@
 .button {
   background-color: $primary !important;
 }
+.dropzone {
+  background-color: $white !important;
+  color: $text-dark;
+  svg {
+    color: $grey;
+  }
+}
+.dropzoneDark {
+  background-color: $grey !important;
+  color: $text-light;
+  svg {
+    color: $white;
+  }
+}

@@ -5,28 +5,50 @@ import TestPage from "./pages/TestPage";
 import MainPage from "./pages/MainPage";
 import Profile from "./pages/Profile";
 import Rules from "./pages/Rules";
+import Login from "./pages/Login";
+import PrivateRoute from "./components/ProvateRoute";
 
 function App() {
   const router = createBrowserRouter([
+    {
+      path: "/login",
+      element: <Login />,
+    },
     {
       path: "/",
       element: <Layout />,
       children: [
         {
           path: "/testPage",
-          element: <TestPage />,
+          element: (
+            <PrivateRoute>
+              <TestPage />
+            </PrivateRoute>
+          ),
         },
         {
           path: "/mainPage",
-          element: <MainPage />,
+          element: (
+            <PrivateRoute>
+              <MainPage />
+            </PrivateRoute>
+          ),
         },
         {
           path: "/profile",
-          element: <Profile />,
+          element: (
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          ),
         },
         {
           path: "/rules",
-          element: <Rules />,
+          element: (
+            <PrivateRoute>
+              <Rules />
+            </PrivateRoute>
+          ),
         },
       ],
     },

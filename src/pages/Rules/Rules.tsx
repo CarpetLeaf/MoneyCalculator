@@ -29,6 +29,8 @@ import {
 import DownloadIcon from "@mui/icons-material/Download";
 import dayjs from "dayjs";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { DropzoneArea } from "material-ui-dropzone";
+import apiService from "../../utils/axiosInstance";
 
 const Rules = () => {
   const [dailyExpensesModalOpen, setDailyExpensesModalOpen] = useState(false);
@@ -109,19 +111,23 @@ const Rules = () => {
     width: 1,
   });
 
-  const fileUploadHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const fetchServer = async () => {
+    const data = await apiService.getMockRules();
+    dispatch(uploadRules(data));
+  };
+
+  const fileUploadHandler = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       const result = e.target?.result;
       if (result) {
-        console.log("result: ", JSON.parse(result.toString()));
         dispatch(uploadRules(JSON.parse(result.toString())));
       }
     };
     reader.readAsText(event.target.files![0]);
   };
-
-  console.log("rules", rules);
 
   const open = Boolean(anchorEl);
   const dailyInfo =
@@ -129,8 +135,16 @@ const Rules = () => {
   const periodInfo =
     "Эти правила означают ваши периодические траты/доходы. Например зарплата, арендная плата и т.д.";
 
+  const dailyInfoD = "This message for delete";
+  const periodInfoD = "This message also for delete";
+  console.log('dailyInfo & periodInfo', dailyInfoD, periodInfoD);
+
   return (
     <div>
+      <Button onClick={fetchServer}>Click</Button>
+      <DropzoneArea
+        dropzoneClass={isDarkMode ? styles.dropzoneDark : styles.dropzone}
+      />
       <Popover
         open={open}
         anchorEl={anchorEl}
