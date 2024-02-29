@@ -137,7 +137,7 @@ const Rules = () => {
 
   const dailyInfoD = "This message for delete";
   const periodInfoD = "This message also for delete";
-  console.log('dailyInfo & periodInfo', dailyInfoD, periodInfoD);
+  console.log("dailyInfo & periodInfo", dailyInfoD, periodInfoD);
 
   return (
     <div>

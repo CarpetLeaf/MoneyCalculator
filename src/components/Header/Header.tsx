@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   AppBar,
   Avatar,
@@ -12,7 +12,7 @@ import {
 import styles from "./Header.module.scss";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState, switchMode } from "../../app/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { mockProfile } from "../../data/mockData";
 
 const Header = () => {
@@ -23,6 +23,7 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [currPage, setCurrPage] = useState(useLocation().pathname);
 
   const userData = mockProfile;
 
@@ -33,16 +34,19 @@ const Header = () => {
   const handleClose = () => {
     setAnchorEl(null);
     localStorage.removeItem("accessToken");
+    setCurrPage("/login");
     navigate("/login");
   };
 
   const navigateProfile = () => {
     handleClose();
+    setCurrPage("/profile");
     navigate("/profile");
   };
 
   const navigateRules = () => {
     handleClose();
+    setCurrPage("/rules");
     navigate("/rules");
   };
 
@@ -51,6 +55,13 @@ const Header = () => {
   ) => {
     setAnchorEl(e.currentTarget);
   };
+
+  useEffect(() => {
+    if (currPage === "/") {
+      setCurrPage("/mainPage");
+      navigate("/mainPage");
+    }
+  }, [currPage, navigate]);
 
   return (
     <AppBar position="static" className={styles.appBar}>

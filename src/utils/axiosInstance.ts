@@ -25,6 +25,13 @@ class ApiService {
     });
     return response.data;
   }
+  async register(username: string, password: string) {
+    const response = await this.axiosInstance.post("/register", {
+      username,
+      password,
+    });
+    return response.data;
+  }
 }
 
 export default new ApiService();
