@@ -29,13 +29,14 @@ import {
 import DownloadIcon from "@mui/icons-material/Download";
 import dayjs from "dayjs";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { DropzoneArea } from "material-ui-dropzone";
-import apiService from "../../utils/axiosInstance";
+import InfoIcon from "../../assets/icons/info-icon";
+import { primaryDark, primaryLight } from "../../theming/theme";
+import classNames from "classnames";
 
 const Rules = () => {
   const [dailyExpensesModalOpen, setDailyExpensesModalOpen] = useState(false);
   const [periodChangesModalOpen, setPeriodChangesModalOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<HTMLImageElement | null>(null);
+  const [anchorEl, setAnchorEl] = useState<SVGSVGElement | null>(null);
   const [infoText, setInfoText] = useState("");
   const [DESum, setDESum] = useState("");
   const [DEDesc, setDEDesc] = useState("");
@@ -70,7 +71,7 @@ const Rules = () => {
     setPeriodChangesModalOpen(false);
   };
 
-  const openInfo = (event: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+  const openInfo = (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
@@ -111,11 +112,6 @@ const Rules = () => {
     width: 1,
   });
 
-  const fetchServer = async () => {
-    const data = await apiService.getMockRules();
-    dispatch(uploadRules(data));
-  };
-
   const fileUploadHandler = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -135,16 +131,8 @@ const Rules = () => {
   const periodInfo =
     "Эти правила означают ваши периодические траты/доходы. Например зарплата, арендная плата и т.д.";
 
-  const dailyInfoD = "This message for delete";
-  const periodInfoD = "This message also for delete";
-  console.log("dailyInfo & periodInfo", dailyInfoD, periodInfoD);
-
   return (
     <div>
-      <Button onClick={fetchServer}>Click</Button>
-      <DropzoneArea
-        dropzoneClass={isDarkMode ? styles.dropzoneDark : styles.dropzone}
-      />
       <Popover
         open={open}
         anchorEl={anchorEl}
@@ -170,7 +158,6 @@ const Rules = () => {
             component="label"
             variant="contained"
             startIcon={<CloudUploadIcon />}
-            className={styles.button}
           >
             Upload file
             <VisuallyHiddenInput
@@ -181,7 +168,10 @@ const Rules = () => {
           </Button>
           <DownloadIcon
             fontSize="large"
-            className={styles.downloadIcon}
+            className={classNames(
+              styles.downloadIcon,
+              isDarkMode ? styles.darkIcon : "",
+            )}
             onClick={downloadRules}
           ></DownloadIcon>
         </div>
@@ -210,8 +200,8 @@ const Rules = () => {
             }}
           >
             <Typography>Daily expenses</Typography>
-            <img
-              src="public/info-icon.svg"
+            <InfoIcon
+              color={isDarkMode ? primaryLight : primaryDark}
               onClick={(e) => {
                 openInfo(e);
                 setInfoText(dailyInfo);
@@ -272,8 +262,8 @@ const Rules = () => {
             }}
           >
             <Typography>Period changes</Typography>
-            <img
-              src="public/info-icon.svg"
+            <InfoIcon
+              color={isDarkMode ? primaryLight : primaryDark}
               onClick={(e) => {
                 openInfo(e);
                 setInfoText(periodInfo);

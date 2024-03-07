@@ -7,8 +7,15 @@ import Profile from "./pages/Profile";
 import Rules from "./pages/Rules";
 import Login from "./pages/Login";
 import PrivateRoute from "./components/ProvateRoute";
+import { ThemeProvider } from "@emotion/react";
+import { theme, themeSecondary } from "./theming/theme";
+import { TypedUseSelectorHook, useSelector } from "react-redux";
+import { RootState } from "./app/store";
 
 function App() {
+  const useRulesSelector: TypedUseSelectorHook<RootState> = useSelector;
+  const isDarkMode = useRulesSelector((state) => state.darkMode.isDarkMode);
+
   const router = createBrowserRouter([
     {
       path: "/login",
@@ -16,7 +23,11 @@ function App() {
     },
     {
       path: "/",
-      element: <Layout />,
+      element: (
+        <ThemeProvider theme={isDarkMode ? theme : themeSecondary}>
+          <Layout />
+        </ThemeProvider>
+      ),
       children: [
         {
           path: "/testPage",

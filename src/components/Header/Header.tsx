@@ -6,6 +6,7 @@ import {
   Menu,
   MenuItem,
   Switch,
+  ThemeProvider,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -14,6 +15,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState, switchMode } from "../../app/store";
 import { useEffect, useState } from "react";
 import { mockProfile } from "../../data/mockData";
+import { themeSecondary } from "../../theming/theme";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -33,9 +35,6 @@ const Header = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
-    localStorage.removeItem("accessToken");
-    setCurrPage("/login");
-    navigate("/login");
   };
 
   const navigateProfile = () => {
@@ -56,6 +55,13 @@ const Header = () => {
     setAnchorEl(e.currentTarget);
   };
 
+  const handleLogout = () => {
+    handleClose();
+    localStorage.removeItem("accessToken");
+    setCurrPage("/login");
+    navigate("/login");
+  };
+
   useEffect(() => {
     if (currPage === "/") {
       setCurrPage("/mainPage");
@@ -74,18 +80,20 @@ const Header = () => {
           Balance Calculator
         </Typography>
         <div className={styles.rightElements}>
-          <FormControlLabel
-            control={
-              <Switch
-                sx={{ m: 1 }}
-                color="primary"
-                checked={isDarkMode}
-                onChange={handleSwitch}
-              />
-            }
-            label="Dark mode"
-            labelPlacement="start"
-          />
+          <ThemeProvider theme={themeSecondary}>
+            <FormControlLabel
+              control={
+                <Switch
+                  sx={{ m: 1 }}
+                  color="primary"
+                  checked={isDarkMode}
+                  onChange={handleSwitch}
+                />
+              }
+              label="Dark mode"
+              labelPlacement="start"
+            />
+          </ThemeProvider>
           <Avatar
             onClick={(e) => handleExpandUser(e)}
             src={userData.avatarUrl}
@@ -105,7 +113,7 @@ const Header = () => {
           >
             <MenuItem onClick={navigateProfile}>Profile</MenuItem>
             <MenuItem onClick={navigateRules}>My rules</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </div>
       </Toolbar>

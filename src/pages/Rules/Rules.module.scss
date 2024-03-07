@@ -47,6 +47,9 @@
   margin-right: 10px;
   color: $primary;
 }
+.darkIcon {
+  color: $primaryDark;
+}
 .downloadIcon:hover {
   cursor: pointer;
 }
@@ -59,6 +62,9 @@
   background-color: $primary !important;
 }
 .dropzone {
+  justify-content: center;
+}
+.dropzoneLight {
   background-color: $white !important;
   color: $text-dark;
   svg {
@@ -71,4 +77,10 @@
   svg {
     color: $white;
   }
+}
+.visibleObj {
+  display: flex;
+}
+.hiddenObj {
+  display: none;
 }
